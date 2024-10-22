@@ -4,6 +4,14 @@ Structure et fonctions permettant la simulation d'une machine de Turing
 
 export enum Direction { LEFT, RIGHT };
 
+export interface Transition {
+  state_pre: number,
+  symbol_pre: string,
+  state_after: number,
+  symbol_after: string,
+  move: Direction
+};
+
 export interface Simulation {
   left: string[],  // stocke les symboles des cellules d'indice strictement negatif
   right: string[], // stocke les symboles des cellules d'indice positif
@@ -31,7 +39,7 @@ export const getSymbolAt = (simulation: Simulation, i: number) => {
 /*
 Place le symbole c à la position i du ruban
 */
-const setSymbolAt = (left, right, i: number, c: string) => {
+const setSymbolAt = (left: string[], right: string[], i: number, c: string) => {
   if (i >=0) {
     if (i < right.length) {
       right[i] = c;
@@ -51,7 +59,7 @@ const setSymbolAt = (left, right, i: number, c: string) => {
 Recherche si une transition est possible
 retourne l'action à effectuer ou null en l'absence de transition
 */
-const rechercheAction = (simulation, transitions) => {
+const rechercheAction = (simulation: Simulation, transitions: Transition[]) => {
   let { pos, state } = simulation;
   const c = getSymbolAt(simulation, pos);
 
@@ -73,7 +81,7 @@ Retourne :
   - un objet simulation mis à jour
   - un booléen indiquant si la mdT simulée s'est finalement arrêtée
 */
-export const simulationDoStep = (simulation: Simulation, transitions): Simulation => {
+export const simulationDoStep = (simulation: Simulation, transitions: Transition[]): Simulation => {
   const action = rechercheAction(simulation, transitions);
   if (action) {
     /*

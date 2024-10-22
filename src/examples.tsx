@@ -1,12 +1,12 @@
 /* Définitions de différentes machines de Turing en exemple */
 
 import * as React from 'react';
-import { Direction } from './simulation';
+import { Direction, Transition } from './simulation';
 
 /*
 MdT reconnaissant le langage a k fois b k fois
 */
-const MACHINE1 = [
+const MACHINE1: Transition[] = [
   { state_pre: 0, symbol_pre: 'a', state_after: 1, symbol_after: 'X', move: Direction.RIGHT },
   { state_pre: 0, symbol_pre: 'Y', state_after: 3, symbol_after: 'Y', move: Direction.RIGHT },
   { state_pre: 1, symbol_pre: 'a', state_after: 1, symbol_after: 'a', move: Direction.RIGHT },
@@ -22,7 +22,7 @@ const MACHINE1 = [
 /*
 MdT reconnaissant le langage a k fois b k fois c k fois
 */
-const MACHINE2 = [
+const MACHINE2: Transition[] = [
   { state_pre: 0, symbol_pre: 'a', state_after: 1, symbol_after: 'X', move: Direction.RIGHT },
   { state_pre: 0, symbol_pre: 'Y', state_after: 4, symbol_after: 'Y', move: Direction.RIGHT },
   { state_pre: 1, symbol_pre: 'a', state_after: 1, symbol_after: 'a', move: Direction.RIGHT },
@@ -45,7 +45,7 @@ const MACHINE2 = [
 MdT Remplissant le ruban alternativement vers la gauche et la droite, indéfiniment,
 permet de vérifier le bon fonctionnement du cadrage
 */
-const MACHINE3 = [
+const MACHINE3: Transition[] = [
   { state_pre: 0, symbol_pre: 'B', state_after: 1, symbol_after: 'a', move: Direction.RIGHT },
   { state_pre: 1, symbol_pre: 'B', state_after: 2, symbol_after: 'a', move: Direction.LEFT },
   { state_pre: 1, symbol_pre: 'a', state_after: 1, symbol_after: 'a', move: Direction.RIGHT },

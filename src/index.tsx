@@ -24,7 +24,6 @@ const Main = () => {
     dispatch({ type: 'SET_INITIAL_CONTENT', payload: event.target.value });
   };
   const setSpeed = (event) => {
-    console.log(event.target.value)
     dispatch({ type: 'SET_SPEED', payload: parseInt(event.target.value,10) });
   };
 
