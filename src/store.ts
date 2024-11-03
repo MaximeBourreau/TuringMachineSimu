@@ -1,6 +1,7 @@
 import { createStore } from 'redux';
 import { MACHINE_EXAMPLES } from './examples';
 import { simulationDoStep } from './simulation';
+import { parse } from './parser';
 
 /* Largeur de la partie visible du ruban */
 export const WIDTH = 60;
@@ -30,12 +31,19 @@ const initialState = {
   speed: 1,
   tickCount: 0,
   initialContent: '',
-  machine: 0,
+  exampleMode: true,
+  exampleMachine: 0,
+  machineSrc: '',
+  machine: [],
+  errMsg: null
 };
 
 const doStep = (state, shouldRun) => {
 
-  const { transitions } = MACHINE_EXAMPLES[state.machine];
+  const transitions = state.exampleMode ?
+    MACHINE_EXAMPLES[state.exampleMachine].transitions :
+    state.machine;
+
   const simulation = simulationDoStep(state.simulation, transitions);
 
   /*
@@ -57,8 +65,20 @@ const doStep = (state, shouldRun) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-      case 'SET_MACHINE':
-        return { ...state, machine: action.payload };
+      case 'SET_EXAMPLE_MODE':
+        return { ...state, exampleMode: action.payload };
+      case 'SET_EXAMPLE_MACHINE':
+        return { ...state, exampleMachine: action.payload };
+      case 'SET_MACHINE_SRC':
+        const machineSrc = action.payload;
+        let machine = [];
+        let errMsg = null;
+        try {
+          machine = parse(machineSrc);
+        } catch (error) {
+          errMsg = error.message;
+        }
+        return { ...state, machineSrc, machine, errMsg };
       case 'SET_INITIAL_CONTENT':
         return { ...state, initialContent: action.payload };
       case 'INIT':

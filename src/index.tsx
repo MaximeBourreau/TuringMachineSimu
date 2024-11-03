@@ -4,6 +4,7 @@ import { Provider, useSelector } from 'react-redux';
 import { store } from './store';
 import { TapeViewer } from './TapeViewer';
 import { Controls } from './Controls';
+import { MachineEditor } from './MachineEditor';
 import { MACHINE_EXAMPLES } from './examples';
 
 declare const BUILD_TIMESTAMP: string;
@@ -12,9 +13,10 @@ const Main = () => {
 
   const state = useSelector((state: any) => state.simulation.state);
   const halted = useSelector((state: any) => state.simulation.halted);
-  const machine = useSelector((state: any) => state.machine);
+  const exampleMachine = useSelector((state: any) => state.exampleMachine);
+  const exampleMode = useSelector((state: any) => state.exampleMode);
 
-  const accept = halted && MACHINE_EXAMPLES[machine].accept.includes(state);
+  const accept = halted && MACHINE_EXAMPLES[exampleMachine].accept.includes(state);
 
   return (
     <div style={{ fontFamily: 'sans-serif' }}>
@@ -22,6 +24,7 @@ const Main = () => {
       <div style={{ textAlign: 'center', fontSize: '2em' }}>state : q{state} {halted && <span>halted</span>} {accept && <span>accept</span>}</div>
       <TapeViewer />
       <Controls />
+      { exampleMode || <MachineEditor /> }
     </div>
   );
 };

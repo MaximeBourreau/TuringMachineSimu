@@ -5,13 +5,17 @@ import { MACHINE_EXAMPLES } from './examples';
 export const Controls = () => {
 
   const dispatch = useDispatch();
-  const machine = useSelector((state: any) => state.machine);
+  const exampleMode = useSelector((state: any) => state.exampleMode);
+  const exampleMachine = useSelector((state: any) => state.exampleMachine);
   const running = useSelector((state: any) => state.running);
   const speed = useSelector((state: any) => state.speed);
   const initialContent = useSelector((state: any) => state.initialContent);
 
-  const setMachine = (event) => {
-    dispatch({ type: 'SET_MACHINE', payload: parseInt(event.target.value, 10) });
+  const setExampleMode = (event) => {
+    dispatch({ type: 'SET_EXAMPLE_MODE', payload: event.target.checked });
+  };
+  const setExampleMachine = (event) => {
+    dispatch({ type: 'SET_EXAMPLE_MACHINE', payload: parseInt(event.target.value, 10) });
   };
   const setInitialContent = (event) => {
     dispatch({ type: 'SET_INITIAL_CONTENT', payload: event.target.value });
@@ -23,18 +27,28 @@ export const Controls = () => {
   return (
     <div style={{ textAlign: 'center' }}>
       <div style={{ display: 'inline-block', margin: '0 1em' }}>
-      { MACHINE_EXAMPLES.map ((item, i) =>
-        <label key={i}>
-        <input
-            type='radio'
-            disabled={running}
-            value={i}
-            checked={machine==i}
-            onChange={setMachine}
-        />
-        {item.name}
+        <label>
+          <input
+              type='checkbox'
+               checked={exampleMode}
+              onChange={setExampleMode}
+          />
+            { exampleMode ? 'use example : ' : 'use example' }
         </label>
-      )}
+        <>
+          { exampleMode && MACHINE_EXAMPLES.map ((item, i) =>
+            <label key={i}>
+              <input
+                  type='radio'
+                  disabled={running}
+                  value={i}
+                  checked={exampleMachine==i}
+                  onChange={setExampleMachine}
+              />
+                {item.name}
+            </label>
+          )}
+        </>
       </div>
       <div style={{ display: 'inline-block', margin: '0 1em' }}>
         <input type='text' value={initialContent} onChange={setInitialContent}/>
