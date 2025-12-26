@@ -16,7 +16,7 @@ const Main = () => {
   const exampleMachine = useSelector((state: any) => state.exampleMachine);
   const exampleMode = useSelector((state: any) => state.exampleMode);
 
-  const accept = halted && MACHINE_EXAMPLES[exampleMachine].accept.includes(state);
+  const accept = halted && exampleMode && MACHINE_EXAMPLES[exampleMachine].accept.includes(state);
 
   return (
     <div style={{ fontFamily: 'sans-serif' }}>
